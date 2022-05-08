@@ -39,8 +39,8 @@
             </div>
           </nav>
           <div class="flex flex-wrap lg:ml-20 justify-center md:justify-start max-w-xl mt-0 md:my-32 ">
-            <h1 class="font-bold text-5xl md:text-6xl lg:text-6xl text-center md:text-left">Binary Search Tree</h1>
-            <p class="mt-16 text-secondary">Create, Search, Insert, Inorder, Preorder and postorder</p>
+            <h1 class="font-bold text-5xl md:text-6xl lg:text-6xl text-center md:text-left">Self Exercises</h1>
+            <p class="mt-16 text-secondary">Solve the L.P.P. problem given by <br>Minimize Z = -50x + 20y <br>subject to constraints <br>2x -  y >= -5, 3x + y >= 3, 2x - 3y <= 12, x , y >= 0 <br>subject to constraints <br>x + 3y <= 60, x + y >= 10, x <= y, x , y >= 0</p>
 
             </div>
             
@@ -54,242 +54,33 @@
             <!-- <div class="space-y-12 "> -->
                 <!-- <div class="w-full border-nav border-2 p-16 lg:px-32 lg:py-6 lg:space-x-32 flex justify-center lg:justify-start flex-wrap lg:flex-nowrap"> -->
      
-                <pre><code class="language-c line-numbers">#include < stdio.h >
-#include < malloc.h >
-#include < stdlib.h >
-#include"btree.h"
-int main()
-{
-struct node *root = NULL;
-setbuf(stdout,NULL);
-int choice,item,n,i,count,node;
-printf("\n***Binary Search Tree***\n");
-printf("\n1. Creation Of BST");
-printf("\n2. Search Node In BST");
-printf("\n3. Insert New Node In BST");
-printf("\n4. Traverse In Inorder");
-printf("\n5. Traverse In Preorder");
-printf("\n6. Traverse In Postorder");
-printf("\n7. Count Total Nodes In BST");
-printf("\n8. Count LeafNodes In BST");
-printf("\n9. Display Of BST");
-printf("\n10. Exit\n");
-while(1)
-{
-printf("\n Enter Your Choice : (1.Create 2.Search Node In BST 
-3.Insert New Node In BST 4.Inorder 5.Preorder 6.Postorder 
-7.Count Total Nodes In BST 8.Count LeafNodes In BST 
-9.Display of BST 10.Exit)\n");
-scanf("%d",&choice);
-switch(choice)
-{
-case 1:
-root = NULL;
-printf("Enter Number Of Nodes:\n");
-scanf("%d",&n);
-for(i=1;i<=n;i++)
-{
-printf("\nEnter Data For Node %d : ",i);
-scanf("%d",&item);
-root = Create(root,item);
-}
-break;
-case 2:
-//int node;
-printf("\nEnter Node To Be Searched : ");
-scanf("%d",&node);
-search(root,node);
-break;
-case 3:
-//int node;
-printf("\nEnter Data For Insert New Node : ");
-scanf("%d",&node);
-insert(&root,node);
-break;
-case 4:
-Inorder(root);
-break;
-case 5:
-Preorder(root);
-break;
-case 6:
-Postorder(root);
-break;
-case 7:
-CountNodes(root);
-{
-count = CountNodes(root);
-printf("\nTotal Number Of Nodes : %d\n",count);
-}
-break;
-case 8:
-CountLeafNode(root);
-printf("\nNumber Of LeafNodes : %d\n",CountLeafNode(root));
-break;
-case 9:
-display(root);
-break;
+                <pre><code class="language-python line-numbers"># import the library pulp as p
+import pulp as p
 
-case 10:
-exit(0);
-default:
-printf("Wrong Choice !!\n");
-}
-}
-return 0;
-}
+# Create a LP Minimization problem
+Lp_prob = p.LpProblem('Problem', p.LpMinimize)
 
-*************btree.h******************
+# Create problem Variables 
+x = p.LpVariable("x", lowBound = 0) # Create a variable x >= 0
+y = p.LpVariable("y", lowBound = 0)  # Create a variable y >= 0
 
+# Objective Function
+Lp_prob += -50 * x + 20 * y
 
-struct node
-{
-int data;
-int node;
-struct node *right;
-struct node *left;
-};
-struct node *Create(struct node *, int);
-void Inorder(struct node *);
-void Preorder(struct node *);
-void Postorder(struct node *);
-void insert(struct node **,int);
-int CountNodes(struct node *);
-struct node *Create(struct node *root, int item)
-{
-if(root == NULL)
-{
-root=(struct node *)malloc(sizeof(struct node));
-root->left=root->right=NULL;
-root->data=item;
-return root;
-}
-else
-{ 
-if(item<root->data)
-root->left=Create(root->left,item);
-else if(item>root->data)
-root->right=Create(root->right,item);
-else
-printf("Duplicate Element Is Not Allowed !!!");
-return(root);
-}
-}
-int search(struct node *temp,int data)
-{
-if(temp)
-{
-if(temp->data == data)
-{
-printf("\nGiven Node Is Present In BST\n");
-}
-else
-{
-printf("\nGiven Node Is Not Present In BST\n");
-}
-return 0;
-}
-search(temp->left,data);
-search(temp->right,data);
-}
-struct node * createnode(struct node *newnode,int data)
-{
-newnode=malloc(sizeof(struct node));
-newnode->data=data;
-newnode->left= newnode->right = NULL;
-return newnode;
-}
-void insert(struct node **root,int data)
-{
-struct node *newnode;
-newnode=createnode(newnode,data);
-if(*root==NULL)
-*root=newnode;
-else
-{
-struct node *temp=*root;
-while(1)
-{
-if(data <= temp->data)
-{
-if(temp->left==NULL)
-{
-temp->left=newnode;
-break;
-}
-temp=temp->left;
-}
-else
-{
-if(temp->right==NULL)
-{
-temp->right=newnode;
-break;
-}
-temp=temp->right;
-}
-}
-}
-}
-void Inorder(struct node *root)
-{
-if(root != NULL)
-{
-Inorder(root->left);
-printf("%d",root->data);
-Inorder(root->right);
-}
-}
-void Preorder(struct node *root)
-{
-if(root != NULL)
-{
-printf("%d",root->data);
-Preorder(root->left);
-Preorder(root->right);
-}
-}
-void Postorder(struct node *root)
-{
-if(root != NULL)
-{
-Postorder(root->left);
-Postorder(root->right);
-printf("%d",root->data);
-}
-}
-int CountNodes(struct node *tree)
-{
-int count = 1;            
-if(tree == NULL)
-return 0;
-else
-{
-count += CountNodes(tree->left);
-count += CountNodes(tree->right);
-return count;
-}
-}
-int CountLeafNode(struct node *root)
-{
-if(root == NULL)
-return 0;
-if(root->left==NULL&&root->right==NULL)
-return 1;
-return CountLeafNode(root->left)+CountLeafNode(root->right);
-}
-void display(struct node *temp)
-{
-if(temp)
-{
-printf("%d\t",temp->data);
-display(temp->left);
-display(temp->right);
-}
-}
+# Constraints:
+Lp_prob += 2 * x -  y >= -5
+Lp_prob += 3 * x + y >= 3
+Lp_prob += 2 * x - 3 * y <= 12
+Lp_prob += x , y >= 0
 
+# Display the problem
+print(Lp_prob)
 
+status = Lp_prob.solve()  # Solver
+print(p.LpStatus[status]) # The solution status
 
+# Printing the final solution
+print("X = ",p.value(x), "\tY = ",p.value(y),"\tZ = ", p.value(Lp_prob.objective))
                 </code></pre>
               </div>
 
